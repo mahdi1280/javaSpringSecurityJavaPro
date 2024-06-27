@@ -34,6 +34,7 @@ public class BasicConfiguration {
         return http.authorizeHttpRequests(request->
                 request.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
+                .formLogin(form->form.loginPage("/login").permitAll())
                 .build();
     }
 

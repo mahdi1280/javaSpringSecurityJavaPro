@@ -3,6 +3,7 @@ package ir.javapro.springsecurityjavapro.service;
 import ir.javapro.springsecurityjavapro.model.User;
 import ir.javapro.springsecurityjavapro.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,5 +24,15 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(()->
                 new RuntimeException("user.not.found"));
+    }
+
+    @PostAuthorize("returnObject.username == authentication.name")
+    public User findById(int id) {
+        return userRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("user.not.found"));
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

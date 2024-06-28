@@ -19,6 +19,9 @@
 </head>
 <body>
     <h1>Login Page</h1>
+    <div th:if="${param.error}">
+        <p>username or password not valid!</p>
+    </div>
     <form method="post" th:action="@{/login}" class="form">
        <div>
            <div style="padding: 4px;margin: 4px">

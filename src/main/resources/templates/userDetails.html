@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>user details</title>
+</head>
+<body>
+    <div>
+        <h1>User details</h1>
+        <p>
+            <span>id:</span><span th:text="${user.getId()}"></span>
+        </p>
+        <p>
+            <span>username:</span><span th:text="${user.getUsername()}"></span>
+        </p>
+        <p>
+            <span>enabled:</span><span th:text="${user.getEnabled()}"></span>
+        </p>
+        <p>
+            <span>Role:</span><span th:text="${user.getRole()}"></span>
+        </p>
+    </div>
+</body>
+</html>

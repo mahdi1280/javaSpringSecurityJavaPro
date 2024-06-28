@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok("this is all user");
     }

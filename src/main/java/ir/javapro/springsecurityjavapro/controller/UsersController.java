@@ -5,6 +5,7 @@ import ir.javapro.springsecurityjavapro.model.User;
 import ir.javapro.springsecurityjavapro.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,13 @@ public class UsersController {
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok("this is all user");
     }
+
+    @GetMapping("/testAuthService")
+    @PostAuthorize("@authService.checkLoadUser(#returnObject)")
+    public ResponseEntity<?> testAuthService() {
+        return ResponseEntity.ok().build();
+    }
+
 
     @GetMapping("/id/{id}")
     public ResponseEntity<UserResponse> findUserById(@PathVariable int id) {

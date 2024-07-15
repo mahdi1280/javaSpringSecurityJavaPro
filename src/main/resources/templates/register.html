@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+</head>
+<body>
+<h1>Register</h1>
+<p th:if="${#fields.hasErrors('userSaveRequest.username')}">user name is not valid</p>
+<p th:if="${#fields.hasErrors('userSaveRequest.password')}">password is not valid</p>
+<form method="post" th:action="@{/login/register}">
+    <div>
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username">
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password">
+    </div>
+    <input type="submit">
+</form>
+</body>
+</html>

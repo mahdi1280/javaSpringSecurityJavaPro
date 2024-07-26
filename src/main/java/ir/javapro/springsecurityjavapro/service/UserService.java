@@ -1,5 +1,6 @@
 package ir.javapro.springsecurityjavapro.service;
 
+import ir.javapro.springsecurityjavapro.dto.UserSaveRequest;
 import ir.javapro.springsecurityjavapro.model.User;
 import ir.javapro.springsecurityjavapro.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,9 @@ public class UserService implements UserDetailsService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 }

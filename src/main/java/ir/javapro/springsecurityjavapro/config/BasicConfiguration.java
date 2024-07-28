@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -28,22 +29,9 @@ public class BasicConfiguration {
 
     private final UserService userService;
 
-//    @Bean
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-//        UserDetails users = User.withUsername("user")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("USER")
-//                .build();
-//        UserDetails admin = User.withUsername("admin")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("ADMIN","USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(users, admin);
-//    }
-
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        return http.csrf().disable().authorizeHttpRequests(request->
+        return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request->
                 request.requestMatchers(HttpMethod.GET,"/index","/index/products","/index/**", "/login/register")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST , "/login/register")

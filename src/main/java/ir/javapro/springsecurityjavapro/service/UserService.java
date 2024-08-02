@@ -3,7 +3,9 @@ package ir.javapro.springsecurityjavapro.service;
 import ir.javapro.springsecurityjavapro.config.JwtService;
 import ir.javapro.springsecurityjavapro.dto.UserRestLoginRequest;
 import ir.javapro.springsecurityjavapro.dto.UserRestLoginResponse;
+import ir.javapro.springsecurityjavapro.model.Token;
 import ir.javapro.springsecurityjavapro.model.User;
+import ir.javapro.springsecurityjavapro.repository.TokenRepository;
 import ir.javapro.springsecurityjavapro.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -22,6 +24,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final TokenRepository tokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,6 +49,17 @@ public class UserService implements UserDetailsService {
     public UserRestLoginResponse login(UserRestLoginRequest userRestLoginRequest) {
         UserDetails userDetails = loadUserByUsername(userRestLoginRequest.getUsername());
         String token = jwtService.generateToken(userDetails);
+        saveToken(token,userDetails);
         return new UserRestLoginResponse(token);
+    }
+
+    private void saveToken(String token, UserDetails userDetails) {
+        Token saveToken = Token.builder()
+                .token(token)
+                .expired(Boolean.FALSE)
+                .revoked(Boolean.FALSE)
+                .user((User) userDetails)
+                .build();
+        tokenRepository.save(saveToken);
     }
 }

@@ -1,5 +1,6 @@
 package ir.javapro.springsecurityjavapro.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -42,8 +43,28 @@ public class JwtService {
 
     }
 
-    private Key getSignKey(){
-        byte[] keyByte  = Decoders.BASE64.decode(key);
+    private Key getSignKey() {
+        byte[] keyByte = Decoders.BASE64.decode(key);
         return Keys.hmacShaKeyFor(keyByte);
+    }
+
+    public String extractUserName(String token) {
+        Claims claims = parseToken(token);
+        return claims.getSubject();
+    }
+
+    public boolean isExpire(String token) {
+        Claims claims = parseToken(token);
+        Date expiration = claims.getExpiration();
+        return expiration.before(new Date());
+    }
+
+    private Claims parseToken(String token) {
+        return Jwts.
+                parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
